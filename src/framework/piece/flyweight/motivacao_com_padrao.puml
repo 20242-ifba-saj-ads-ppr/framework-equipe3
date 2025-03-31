@@ -1,4 +1,46 @@
 @startuml
 
+class PieceFactory {
+  pool:Map<String, Piece> 
+  getPieceFlyweight(color, model)
+}
+
+interface Piece {
+  getSharedPiece()
+}
+
+class SharedPiece {
+  model
+  color  
+  getSharedPiece()
+}
+
+class Mouse {
+  sharedPiece
+  position
+  getSharedPiece()
+}
+
+class Client
+
+PieceFactory o-right-> Piece: pool of flyweights
+Piece <|.down. SharedPiece
+Piece <|.down. Mouse
+Mouse o-left-> SharedPiece
+Client -up-> PieceFactory
+Client -up-> SharedPiece
+Client -up-> Mouse
+
+note left of PieceFactory
+FlyweightFactory
+end note
+
+note bottom of SharedPiece
+estado intrinseco
+end note
+
+note bottom of Mouse
+estado extrinseco + intrinseco
+end note
 
 @enduml

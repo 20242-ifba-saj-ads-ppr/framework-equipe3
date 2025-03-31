@@ -1,3 +1,27 @@
 @startuml
+left to right direction
 
+class PieceFactory {
+  pool: Map<String, Piece> 
+  getPiece(color, model)
+}
+
+abstract class Piece {
+  model
+  color  
+  position
+}
+
+class Mouse {
+  model
+  color  
+  position
+}
+
+class Client
+
+Mouse --|> Piece
+PieceFactory --> Mouse: cria
+Client -up-> PieceFactory
+Client -up-> Mouse
 @enduml

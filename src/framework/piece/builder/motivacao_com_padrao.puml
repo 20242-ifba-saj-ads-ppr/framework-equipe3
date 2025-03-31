@@ -1,4 +1,26 @@
 @startuml
+left to right direction
 
+class Director {
+  makeAWhiteMouse()
+}
+
+interface PieceBuilder {
+  reset()
+  position()
+  flyweight()
+  build()
+}
+
+class MouseBuilder {
+  buildPart()
+  getResult()
+}
+
+object Mouse
+
+Director o--> PieceBuilder
+PieceBuilder <|-right- MouseBuilder
+MouseBuilder ..> Mouse : retorna
 
 @enduml

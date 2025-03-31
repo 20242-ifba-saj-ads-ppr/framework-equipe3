@@ -1,3 +1,23 @@
 @startuml
 
+left to right direction
+
+class Client {
+  createMouse()
+}
+
+class ConcretePiece extends Piece {
+  position: int []
+  type: String
+  color: String
+}
+
+abstract class Piece {
+  position: int []
+  type: String
+  color: String
+}
+
+Client --> ConcretePiece : cria
+
 @enduml
