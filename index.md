@@ -33,8 +33,19 @@ Ao utilizar o padrão Builder a lógica de como um objeto é criado é separada 
 
 Com essa nova implementação, o desenvolvedor pode implementar diferentes maneiras de construir peças que podem ser reutilizáveis.
 
+## Código
+
+### PieceBuilder
 <!-- @include: ./src/framework/piece/builder/PieceBuilder.java -->
 
+### Director
+<!-- @include: ./src/game/jungle/piece/Director.java -->
+
+### MouseBuilder
+<!-- @include: ./src/game/jungle/piece/mouse/MouseBuilder.java -->
+
+### Mouse
+<!-- @include: ./src/game/jungle/piece/mouse/Mouse.java -->
 
 ## Estrutura
 
@@ -96,7 +107,19 @@ No caso desse framework, as peças podem ter características imutáveis (como o
 
 Ao aplicar o padrão Flyweight, podemos armazenar as características imutáveis das peças em um único pool de objetos compartilhados, ao invés de criar instâncias repetidas para cada peça. Isso não apenas economiza memória, mas também simplifica o gerenciamento das peças no jogo.
 
+## Código
+
+### PieceFactory
 <!-- @include: ./src/framework/piece/flyweight/PieceFactory.java -->
+
+### Piece
+<!-- @include: ./src/framework/piece/Piece.java -->
+
+### SharedPiece
+<!-- @include: ./src/framework/piece/flyweight/SharedPiece.java -->
+
+### Mouse
+<!-- @include: ./src/game/jungle/piece/mouse/Mouse.java -->
 
 ## Estrutura
 
