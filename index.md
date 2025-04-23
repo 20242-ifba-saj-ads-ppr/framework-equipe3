@@ -3,25 +3,9 @@ export_on_save:
   html: true
 ---
 
-# Template
+# Framework para Jogos de Tabuleiro
 
-## Nome padrão
-
-### Intenção
-
-(GOF)
-
-### Motivação
-- Cenário sem a aplicação do padrão
-  - descrição textual, classes envolvidas e UML
-- Estrutura do padrão (GOF - papeis)
-  - UML
-- Padrão aplicado no cenário
-  - descrição textual, classes envolvidas, UML
-- Participantes
-  - Quem está desempenhado cada papel do padrão dentro do seu cenário.
-- Código
-  - destacando o código do framework e o código do uso do framework (código do jogo específico)
+Grupo composto por Filipe, Isaque, Matheus
 
 ## Builder
 
@@ -31,167 +15,157 @@ Separar a construção de um objeto complexo da sua representação de modo que 
 mesmo processo de construção possa criar diferentes representações.
 
 ### Motivação
-- Cenário sem a aplicação do padrão
-  - descrição textual, classes envolvidas e UML
-- Estrutura do padrão (GOF - papeis)
-  - UML
-- Padrão aplicado no cenário
-  - descrição textual, classes envolvidas, UML
-- Participantes
-  - Quem está desempenhado cada papel do padrão dentro do seu cenário.
-- Código
-  - destacando o código do framework e o código do uso do framework (código do jogo específico)
 
+O padrão Builder foi empregado para facilitar a criação de instâncias complexas da classe Board, abstraindo os detalhes de configuração e montagem de seus componentes internos. Essa abordagem promove a clareza e a fluidez na construção de tabuleiros com diferentes tamanhos, peças ou regras específicas, permitindo que o processo de instanciação seja desacoplado da representação final. Assim, o framework oferece flexibilidade para que diferentes tipos de jogos definam seus próprios "tabuleiros" de maneira coesa e legível, sem comprometer a integridade da classe principal.
 
+### Código
 
-# Builder
+<!-- @include: ./src/framework/board/DrawingBoardBuilder.java -->
 
-## Intenção
+### Estrutura
 
-O padrão Builder tem como intenção separar a construção de um objeto complexo da sua representação, permitindo que o mesmo processo de construção crie diferentes representações do objeto.
+![Builder](./patterns-uml-png/builder.png)
 
-## Motivação
+### Participantes
 
-Considere um framework para criação de jogos de tabuleiro em que o desenvolvedor pode criar as peças a que desejar, com diferentes caracteristicas e comportamentos. Considerando que essas peças podem possuir uma construção complexa e que deve ser segmentada, apenas ter uma interface ou classe abstrata para ser implementada pelo cliente que iria instanciá-la diretamente parece uma ideia trabalhosa de se manter. 
+- Builder
+  - especifica uma interface abstrata para criação de partes de um objetoproduto.
+- ConcreteBuilder
+  - constrói e monta partes do produto pela implementação da interface de
+Builder;
+  - define e mantém a representação que cria;
+  - fornece uma interface para recuperação do produto
 
-<figure>
+- Product
+  - representa o objeto complexo em construção. ConcreteBuilder constrói a
+representação interna do produto e define o processo pelo qual ele é
+montado;
+  - inclui classes que definem as partes constituintes, inclusive as interfaces
+para a montagem das partes no resultado final.
 
-<!-- @include: ./src/framework/piece/builder/motivacao_sem_padrao.puml -->
+## Prototype
 
-<figcaption>Exemplo de como o jogo pode ser implementado sem o padrão Builder</figcaption>
+### Intenção
 
-</figure>
+Especificar os tipos de objetos a serem criados usando uma instância-protótipo e criar novos objetos pela cópia desse protótipo.
 
-Ao utilizar o padrão Builder a lógica de como um objeto é criado é separada de sua classe, agora uma interface construtora é responsável por designar um contrato das partes de uma peça que devem ser construídas para instanciar um objeto. Enquanto uma classe direitora possui métodos com diferentes receitas de como instanciar uma peça. 
+### Motivação
 
-<figure>
+O padrão Prototype foi adotado para a criação de peças e quadrados no tabuleiro com o objetivo de evitar a necessidade de se criar uma nova classe para cada variação possível desses elementos. Ao permitir a clonagem de instâncias previamente configuradas, o framework torna mais ágil e flexível o processo de definição de novos tipos de peças e quadrados, promovendo a reutilização de configurações e comportamentos. Isso reduz a complexidade da hierarquia de classes e facilita a customização dos componentes dos jogos de forma dinâmica e eficiente.
 
-<!-- @include: ./src/framework/piece/builder/motivacao_com_padrao.puml -->
+### Código
 
+<!-- @include: ./src/framework/piece/PiecePrototype.java -->
 
-<figcaption>Exemplo de como o jogo pode ser implementado com o padrão Builder</figcaption>
-</figure>
+### Estrutura
 
-Com essa nova implementação, o desenvolvedor pode implementar diferentes maneiras de construir peças que podem ser reutilizáveis.
+![Prototype](./patterns-uml-png/prototype.png)
 
-## Código
+### Participantes
 
-### PieceBuilder
-<!-- @include: ./src/framework/piece/builder/PieceBuilder.java -->
+- Prototype
+  - declara uma interface para clonar a si próprio.
+- ConcretePrototype
+  - implementa uma operação para clonar a si próprio.
+- Client
+  - cria um novo objeto solicitando a um protótipo que clone a si próprio.
 
-### Director
-<!-- @include: ./src/game/jungle/piece/Director.java -->
 
-### MouseBuilder
-<!-- @include: ./src/game/jungle/piece/mouse/MouseBuilder.java -->
+## Factory Method
 
-### Mouse
-<!-- @include: ./src/game/jungle/piece/mouse/Mouse.java -->
+### Intenção
 
-## Estrutura
+Definir uma interface para criar um objeto, mas deixar as subclasses decidirem que classe instanciar. O Factory Method permite adiar a instanciação para subclasses.
 
-<figure>
+### Motivação
 
-<!-- @include: ./src/framework/piece/builder/estrutura.puml -->
+O padrão Factory Method foi empregado na classe Game para delegar às subclasses a responsabilidade de definir como o tabuleiro, bem como os catálogos de peças e quadrados, devem ser criados. Essa decisão favorece a extensibilidade do framework, permitindo que cada jogo defina suas próprias regras e estruturas sem alterar o núcleo da lógica do sistema. Com isso, ao estender a classe Game, o desenvolvedor pode configurar a construção dos elementos principais do jogo de forma personalizada, mantendo o código flexível, organizado e aderente ao princípio do aberto/fechado.
 
-<figcaption>Estrutura do Builder</figcaption>
+### Código
 
-</figure>
+<!-- @include: ./src/framework/game/Game.java -->
 
-## Participantes
+### Estrutura
 
-- **PieceBuilder** 
-  - Especifica uma interface abstrata para criação de partes de um objeto Piece.
-- **MouseBuilder**
-  - Constrói e monta as partes do produto implementando a interface `PieceBuilder`.  
-  - Define e mantém o controle da representação que cria.  
-  - Fornece uma interface para adquirir um objeto Piece.  
-- **Director**
-  - Constrói um objeto usando a interface `PieceBuilder`. 
-- **Mouse**
-  - Representa o objeto complexo em construção. O `MouseBuilder` constrói a representação interna da classe Piece e define o processo pelo qual ele é montado.  
-  - Inclui classes que definem as partes constituintes, incluindo interfaces para montar as partes no resultado final.
+![FactoryMethod](./patterns-uml-png/factory-method.png)
 
+### Participantes
 
-## Referências
+- Product
+  - define a interface de objetos que o método fábrica cria.
+- ConcreteProduct
+  - implementa a interface de Product.
+- Creator
+  - Declara o método fábrica, o qual retorna um objeto do tipo Product. Creator pode também definir uma implementação por omissão do método factory que retorna por omissão um objeto ConcreteProduct.
 
+## Command
 
-[^GAMMA]: GAMMA, Erich. et al. Padrões de projetos: Soluções reutilizáveis de software orientados a objetos Bookman editora, 2009.
+### Intenção
 
-# Flyweight
+Encapsular uma solicitação como um objeto, desta forma permitindo parametrizar clientes com diferentes solicitações, enfileirar ou fazer o registro (log) de solicitações e suportar operações que podem ser desfeitas.
 
-## Intenção
+### Motivação
 
-O padrão Flyweight visa compartilhar objetos imutáveis para economizar memória, permitindo que múltiplos objetos semelhantes utilizem a mesma instância.
+Diante da grande variedade de ações que um jogador pode realizar durante uma partida — que vão além de simples jogadas e podem incluir, por exemplo, habilidades específicas de peças — o padrão Command foi utilizado para encapsular cada ação como um objeto independente. Dessa forma, cada peça é capaz de gerar e fornecer uma lista de comandos representando suas possibilidades de ação em determinado momento do jogo. Isso promove uma estrutura mais organizada, permitindo que ações sejam tratadas de forma uniforme, facilitando o controle de execução, desfazer/refazer ações, além de permitir fácil extensão para novos tipos de jogadas sem modificar o código existente.
 
-## Motivação
+### Código
 
-O padrão Flyweight é uma solução eficaz para reduzir o consumo de memória ao compartilhar partes imutáveis de objetos, permitindo que várias instâncias de objetos compartilhem características comuns. Isso é particularmente útil quando se tem uma grande quantidade de objetos com atributos semelhantes, como no caso das peças de um jogo de tabuleiro.
+<!-- @include: ./src/framework/commands/Command.java -->
 
-<figure>
+### Estrutura
 
-<!-- @include: ./src/framework/piece/flyweight/motivacao_sem_padrao.puml -->
+![Command](./patterns-uml-png/Command.png)
 
-<figcaption>Exemplo de como o jogo pode ser implementado sem o padrão Flyweight</figcaption>
+### Participantes
 
-</figure>
+- Command
+  - declara uma interface para a execução de uma operação.
+- ConcreteCommand
+  - define uma vinculação entre um objeto Receiver e uma ação;
+  - implementa Execute através da invocação da(s) correspondente(s)
+operação(ões) no Receiver.
+- Client
+  - cria um objeto ConcreteCommand e estabelece o seu receptor.
+- Invoker
+  - solicita ao Command a execução da solicitação.
+- Receiver
+  - sabe como executar as operações associadas a uma solicitação. Qualquer classe pode funcionar como um Receiver.
 
-No caso desse framework, as peças podem ter características imutáveis (como o modelo e a cor) que podem ser compartilhadas entre várias instâncias. Essas características são chamadas de estado intrínseco e podem ser armazenadas em um único objeto, que é compartilhado por todas as peças que possuem essas mesmas características. Por outro lado, o estado extrínseco, que varia para cada instância (por exemplo, a posição de cada peça no tabuleiro), é mantido separadamente e atribuído a cada instância individualmente.
+## Observer
 
-<figure>
+### Intenção
 
-<!-- @include: ./src/framework/piece/flyweight/motivacao_com_padrao.puml -->
+Definir uma dependência um-para-muitos entre objetos, de maneira que quando um objeto muda de estado todos os seus dependentes são notificados e atualizados automaticamente.
 
+### Motivação
 
-<figcaption>Exemplo de como o jogo pode ser implementado com o padrão Flyweight</figcaption>
-</figure>
+Para lidar com situações em que peças ou quadrados precisam reagir a eventos no tabuleiro — como mudanças de estado ou ações de outros jogadores —, foi adotado o padrão Observer. Esse padrão permite que apenas os elementos interessados se inscrevam para receber notificações, evitando a necessidade de notificar todas as instâncias indiscriminadamente. Com isso, o framework garante uma comunicação mais eficiente e desacoplada entre os componentes, promovendo escalabilidade e melhor desempenho, especialmente em jogos com um grande número de elementos dinâmicos no tabuleiro.
 
-Ao aplicar o padrão Flyweight, podemos armazenar as características imutáveis das peças em um único pool de objetos compartilhados, ao invés de criar instâncias repetidas para cada peça. Isso não apenas economiza memória, mas também simplifica o gerenciamento das peças no jogo.
+### Código
 
-## Código
+<!-- @include: ./src/framework/observer/GameStateUpdateObserver.java -->
 
-### PieceFactory
-<!-- @include: ./src/framework/piece/flyweight/PieceFactory.java -->
+<!-- @include: ./src/framework/observer/GameStateUpdateSubject.java -->
 
-### Piece
-<!-- @include: ./src/framework/piece/Piece.java -->
+### Estrutura
 
-### SharedPiece
-<!-- @include: ./src/framework/piece/flyweight/SharedPiece.java -->
+![Observer](./patterns-uml-png/observer.png)
 
-### Mouse
-<!-- @include: ./src/game/jungle/piece/mouse/Mouse.java -->
+### Participantes
 
-## Estrutura
+- Subject
+  - conhece os seus observadores. Um número qualquer de objetos Observer pode observar um subject.
+  - fornece uma interface para acrescentar e remover objetos, permitindo associar e desassociar objetos observer.
+- Observer
+  - define uma interface de atualização para objetos que deveriam ser notificados sobre mudanças em um Subject.
+- ConcreteSubject
+  - armazena estados de interesse para objetos ConcreteObserver.
+  - envia uma notificação para os seus observadores quando seu estado muda.
+- ConcreteObserver
+  - mantém uma referência para um objeto ConcreteSubject.
+  - armazena estados que deveriam permanecer consistentes com os do Subject.
+  - implementa a interface de atualização de Observer, para manter seu estado consistente com o do subject.
 
-<figure>
+### Referências
 
-<!-- @include: ./src/framework/piece/flyweight/estrutura.puml -->
-
-<figcaption>Estrutura do Flyweight</figcaption>
-
-</figure>
-
-## Participantes
-
-- **Piece (Flyweight)**
-  - Declara uma interface pela qual os flyweights podem receber e agir sobre o estado extrínseco.
-
-- **SharedPiece (ConcreteFlyweight)**
-  - Implementa a interface Flyweight e adiciona armazenamento para o estado intrínseco, se houver. Um objeto ConcreteFlyweight deve ser compartilhável. Qualquer estado que ele armazene deve ser intrínseco; ou seja, deve ser independente do contexto do objeto ConcreteFlyweight.
-
-- **Mouse (UnsharedConcreteFlyweight)**
-  - Nem todas as subclasses de Flyweight precisam ser compartilhadas. A interface Flyweight permite o compartilhamento; ela não o impõe. É comum que objetos UnsharedConcreteFlyweight tenham objetos ConcreteFlyweight como filhos em algum nível na estrutura do objeto flyweight (como as classes Linha e Coluna possuem).
-
-- **PieceFactory**
-  - Cria e gerencia objetos flyweight.
-  - Garante que os flyweights sejam compartilhados corretamente. Quando um cliente solicita um flyweight, o objeto FlyweightFactory fornece uma instância existente ou cria uma nova, caso nenhuma exista.
-
-- **Client**
-  - Mantém uma referência ao(s) flyweight(s).
-  - Computa ou armazena o estado extrínseco do(s) flyweight(s).
-
-## Referências
-
-
-[^GAMMA]: GAMMA, Erich. et al. Padrões de projetos: Soluções reutilizáveis de software orientados a objetos Bookman editora, 2009.
+ GAMMA, Erich. et al. Padrões de projetos: Soluções reutilizáveis de software orientados a objetos Bookman editora, 2009.
