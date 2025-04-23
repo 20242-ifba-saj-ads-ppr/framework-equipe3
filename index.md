@@ -3,6 +3,47 @@ export_on_save:
   html: true
 ---
 
+# Template
+
+## Nome padrão
+
+### Intenção
+
+(GOF)
+
+### Motivação
+- Cenário sem a aplicação do padrão
+  - descrição textual, classes envolvidas e UML
+- Estrutura do padrão (GOF - papeis)
+  - UML
+- Padrão aplicado no cenário
+  - descrição textual, classes envolvidas, UML
+- Participantes
+  - Quem está desempenhado cada papel do padrão dentro do seu cenário.
+- Código
+  - destacando o código do framework e o código do uso do framework (código do jogo específico)
+
+## Builder
+
+### Intenção
+
+Separar a construção de um objeto complexo da sua representação de modo que o
+mesmo processo de construção possa criar diferentes representações.
+
+### Motivação
+- Cenário sem a aplicação do padrão
+  - descrição textual, classes envolvidas e UML
+- Estrutura do padrão (GOF - papeis)
+  - UML
+- Padrão aplicado no cenário
+  - descrição textual, classes envolvidas, UML
+- Participantes
+  - Quem está desempenhado cada papel do padrão dentro do seu cenário.
+- Código
+  - destacando o código do framework e o código do uso do framework (código do jogo específico)
+
+
+
 # Builder
 
 ## Intenção
